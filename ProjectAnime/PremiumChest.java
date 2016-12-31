@@ -13,6 +13,8 @@ public class PremiumChest extends Actor
     int size = 0;
     int defaultWidth;
     int defaultHeight;
+    int delay = 50;
+    GreenfootImage img = getImage();
     public PremiumChest(){
         defaultWidth = getImage().getWidth();
         defaultHeight = getImage().getHeight();
@@ -24,12 +26,23 @@ public class PremiumChest extends Actor
      */
     public void act() 
     {
+        if(size<30){
 
+            shake();
+            time();
 
-        shake();
-        time();
-
-        checkClicked();
+            checkClicked();
+        }
+        else if(delay>0){
+            size+=10;
+            updateSize();
+            delay--;
+        }
+        else{
+            MyWorld world = (MyWorld)getWorld();
+            world.unlockAlly();
+            getWorld().removeObject(this);
+        }
     }
 
     public void shake(){
@@ -58,15 +71,18 @@ public class PremiumChest extends Actor
     }
 
     public void updateSize(){
-        GreenfootImage img = getImage();
+        
         img.scale(defaultWidth+size,defaultHeight+size);
         setImage(img);
     }
 
     public void checkClicked(){
-        if(Greenfoot.mouseClicked(this)){
+        if(Greenfoot.mousePressed(this)){
             size += 10;
             updateSize();
+            if(size == 30){
+                getWorld().addObject(new White(),160,240);
+            }
         }
     }
 }

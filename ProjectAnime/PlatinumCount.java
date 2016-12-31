@@ -26,6 +26,8 @@ public class PlatinumCount extends TopHudText
         if(platinumCount != world.getPlatinumCount()){
             platinumCount = world.getPlatinumCount();
             platinumCountStr = Integer.toString(platinumCount);
+            
+            //String test = Integer.toString(world.getNumOwnedAllies());
             super.updateText(platinumCountStr);
         }
     }
