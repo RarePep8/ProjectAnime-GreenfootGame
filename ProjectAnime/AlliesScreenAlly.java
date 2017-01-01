@@ -10,9 +10,15 @@ public class AlliesScreenAlly extends AlliesHud
 {
     int index;
     boolean init = true;
+    int size = 0;
+    String fileName;
+    GreenfootImage img;
+    int defaultWidth;
+    int defaultHeight;
+    boolean hovering = false;
     public AlliesScreenAlly(int index){
         this.index = index;
-        
+
     }
 
     /**
@@ -25,13 +31,46 @@ public class AlliesScreenAlly extends AlliesHud
             init = false;
             updateImage();
         }
+        checkHover();
+        if(size>0 && !hovering){
+            size--;
+            scaleImage();
+        }
         super.checkIsAlliesScreen();
     }    
+
     public void updateImage(){
         MyWorld world = (MyWorld)getWorld();
         if(world.getNumOwnedAllies()-1>=index){
-            String fileName = world.getAllyObjAtIndex(index).getName() + ".png";
+            fileName = world.getAllyObjAtIndex(index).getName() + ".png";
+            img = new GreenfootImage(fileName);
+            defaultWidth = img.getWidth();
+            defaultHeight = img.getHeight();
             setImage(fileName);
+        }
+    }
+
+    public void checkHover(){
+        
+        if(Greenfoot.mouseMoved(null)){
+            if(hovering != Greenfoot.mouseMoved(this)){
+                hovering = !hovering;
+            }
+            
+        }
+        if(hovering){
+                if(size<20){
+                    size +=5;
+                    scaleImage();
+                }
+            }
+    }
+
+    public void scaleImage(){
+        if(fileName!=null){
+            img = new GreenfootImage(fileName);
+            img.scale(defaultWidth+size,defaultHeight+size);
+            setImage(img);
         }
     }
 

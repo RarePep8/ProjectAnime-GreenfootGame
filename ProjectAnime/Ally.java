@@ -9,12 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Ally extends Actor
 {
     String name;
-    int level,attack,health,speed;
-    public Ally(String name, int attack, int health, int speed){
+    int level,attack,defense,speed;
+    public Ally(String name, int attack, int defense, int speed){
         this.name = name;
         this.level = 1;
         this.attack = attack;
-        this.health = health;
+        this.defense = defense;
         this.speed = speed;
     }
     public String getName(){
@@ -28,4 +28,13 @@ public class Ally extends Actor
     {
         // Add your action code here.
     }    
+    public int getAttack(){
+        return attack;
+    }
+    public int getDefense(){
+        return defense;
+    }
+    public int getSpeed(){
+        return speed;
+    }
 }

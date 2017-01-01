@@ -9,10 +9,14 @@ import java.util.List;
  */
 public class MyWorld extends World
 {
-    private int numPlatinum = 100;
+    private int unlockPreviewFrame = 100;
+    private int numPlatinum = 696;
+    boolean isUnlock = false;
+    boolean isUnlockPreview = false;
     String currentScreen = "home";
     List<Ally> allyDatabase = new ArrayList<Ally>();
     List<Ally> ownedAllies = new ArrayList<Ally>();
+    Ally currentPreviewAlly;
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -23,10 +27,45 @@ public class MyWorld extends World
         super(320, 480, 1); 
         prepare();
     }
-
+    public void act(){
+        if(isUnlockPreview){
+            unlockPreview(currentPreviewAlly);
+        }
+    }
     public void unlockAlly(){
-        addObject(new UnlockedAlly(),160,240);
-        ownedAllies.add(allyDatabase.get(0));
+        int randomIndex = Greenfoot.getRandomNumber(allyDatabase.size());
+        //replace allyDatabase.get(0) with random number from database index range
+        addObject(new UnlockedAlly(allyDatabase.get(randomIndex)),160,240);
+        ownedAllies.add(allyDatabase.get(randomIndex));
+    }
+    public void enterUnlock(){
+        isUnlock = true;
+    }
+    public void exitUnlock(){
+        isUnlock = false;
+    }
+    public void unlockPreview(Ally ally){
+        currentPreviewAlly = ally;
+        if(unlockPreviewFrame == 100){
+            isUnlockPreview = true;
+        }
+        else if(unlockPreviewFrame == 75){
+            addObject(new DynamicHudBar(false, "Attack","unlockpreview"),160,350);
+        }
+        else if(unlockPreviewFrame == 50){
+            addObject(new DynamicHudBar(false, "Defense","unlockpreview"),160,400);
+        }
+        else if(unlockPreviewFrame == 25){
+            addObject(new DynamicHudBar(false, "Speed","unlockpreview"),160,450);
+        }
+        else if(unlockPreviewFrame == 0){
+            unlockPreviewFrame = 101;
+            isUnlockPreview = false;
+            addObject(new OkButton("unlockpreview"),160,430);
+        }
+        unlockPreviewFrame--;
+        
+        
     }
     public int getNumOwnedAllies(){
         return ownedAllies.size();
@@ -43,9 +82,25 @@ public class MyWorld extends World
     }
 
     public void recruitAlly(){
-        addObject(new BlackBG(),160,240);
+        addObject(new BlackFade("unlockpreview"),160,240);
+        isUnlock = true;
     }
-
+    public float getDecimalPercentOfStat(String type){
+        int max = 1000;
+        int current=0;
+        
+        if(type == "Attack"){
+            current = currentPreviewAlly.getAttack();
+        }
+        else if(type == "Defense"){
+            current = currentPreviewAlly.getDefense();
+        }
+        else if(type == "Speed"){
+            current = currentPreviewAlly.getSpeed();
+        }
+        float decimalPercent = (float)current/max;
+        return decimalPercent;
+    }
     public void toHomeScreen(){
         if(currentScreen!="home"){
             currentScreen = "home";
@@ -89,10 +144,9 @@ public class MyWorld extends World
     }
 
     private void prepare(){
-        allyDatabase.add(new Ally("Kageyama",10,10,10));
+        allyDatabase.add(new Ally("Kageyama",700,250,250));
+        allyDatabase.add(new Ally("Saitama",600,600,600));
 
-        ownedAllies.add(allyDatabase.get(0));
-        
         setBackground(new GreenfootImage("bg.jpg"));
         StaticHudImage platinumBackDrop = new StaticHudImage("blackrectangle2.png");
         addObject(platinumBackDrop,268,27);
@@ -111,5 +165,7 @@ public class MyWorld extends World
         BottomHudIcon powerupicon = new BottomHudIcon("powerupicon.png");
         addObject(powerupicon,220,452);
         setPaintOrder(White.class);
+        
+
     }
 }

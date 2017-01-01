@@ -10,6 +10,12 @@ public class UnlockedAlly extends Actor
 {
     int delay = 75;
     boolean displayingData = false;
+    Ally referenceAlly;
+    public UnlockedAlly(Ally ally){
+        referenceAlly = ally;
+        String fileName = ally.getName().concat("-unlock.png");
+        setImage(fileName);
+    }
     /**
      * Act - do whatever the Ally wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -17,6 +23,7 @@ public class UnlockedAlly extends Actor
     public void act() 
     {
         move();
+        checkScene();
     }
     public void move(){
         if(delay>0){
@@ -28,8 +35,15 @@ public class UnlockedAlly extends Actor
             }
             else if(!displayingData){
                 displayingData = true;
-                getWorld().addObject(new Text("Top Kek",20,"white"),80,80);
+                MyWorld world = (MyWorld)getWorld();
+                world.unlockPreview(referenceAlly);
             }
+        }
+    }
+    public void checkScene(){
+        MyWorld world = (MyWorld)getWorld();
+        if(!world.isUnlock){
+            world.removeObject(this);
         }
     }
 }

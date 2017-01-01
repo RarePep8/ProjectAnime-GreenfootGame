@@ -21,6 +21,9 @@ public class White extends Actor
     public void act() 
     {
         spikeTransparency();
+        if(spiked && getImage().getTransparency()==0){
+            getWorld().removeObject(this);
+        }
     }    
 
     public void spikeTransparency(){
