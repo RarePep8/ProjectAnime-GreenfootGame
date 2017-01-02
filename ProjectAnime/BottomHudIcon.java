@@ -21,6 +21,7 @@ public class BottomHudIcon extends Hud
     public void act() 
     {
         checkClicked();
+        
     }
     public void checkClicked(){
         if(isClicked()){
@@ -41,6 +42,13 @@ public class BottomHudIcon extends Hud
                 world.toPowerUpScreen();
             }
         }
+    }
+    public void checkScene(){
+        MyWorld world = (MyWorld)getWorld();
+        if(world.isPreview){
+            world.removeObject(this);
+        }
+        
     }
 
     public boolean isClicked(){

@@ -36,15 +36,15 @@ public class BlackFade extends Actor
         if(transparency<255){
             transparency+=5;
             getImage().setTransparency(transparency);
-
         }
         if(transparency==250){
-
             MyWorld world = (MyWorld)getWorld();
             if(scene =="unlockpreview"){
+                world.removeHudObjects();
                 world.addObject(new PremiumChest(),160,270);
             }
             else if(scene == "preview"){
+                world.removeHudObjects();
                 world.preview();
             }
         }

@@ -26,11 +26,11 @@ public class PremiumChest extends Actor
      */
     public void act() 
     {
-        if(size<30){
-
+        if(size==0){
             shake();
             time();
-
+        }
+        if(size<30){
             checkClicked();
         }
         else if(delay>0){
@@ -58,7 +58,7 @@ public class PremiumChest extends Actor
 
         }
         frame-=5;
-        
+
     }
 
     public void time(){
@@ -70,7 +70,6 @@ public class PremiumChest extends Actor
     }
 
     public void updateSize(){
-        
         img.scale(defaultWidth+size,defaultHeight+size);
         setImage(img);
     }

@@ -27,29 +27,54 @@ public class MyWorld extends World
         super(320, 480, 1); 
         prepare();
     }
+
     public void act(){
         if(isUnlockPreview){
             unlockPreview(currentPreviewAlly);
         }
     }
+
     public void unlockAlly(){
         int randomIndex = Greenfoot.getRandomNumber(allyDatabase.size());
         Ally wonAlly = allyDatabase.get(randomIndex);
         addObject(new UnlockedAlly(wonAlly,"unlockpreview"),160,240);
         ownedAllies.add(wonAlly);
     }
+
     public void changeCurrentPreviewAlly(Ally ally){
         currentPreviewAlly = ally;
     }
+
     public void enterPreview(boolean isUnlockPreview){
         isPreview = true;
         if(!isUnlockPreview){
             addObject(new BlackFade("preview"),160,240);
         }
     }
+
     public void exitPreview(){
         isPreview = false;
     }
+
+    public void addBottomHudIcons(){
+        StaticHudImage platinumBackDrop = new StaticHudImage("blackrectangle2.png");
+        addObject(platinumBackDrop,268,27);
+        StaticHudImage platinum = new StaticHudImage("platinum.png");
+        addObject(platinum,242,27);
+        PlatinumCount pc = new PlatinumCount();
+        addObject(pc,285,27);
+        BottomHudIcon recruiticon = new BottomHudIcon("recruiticon.png");
+        addObject(recruiticon,275,450);
+        BottomHudIcon homeicon = new BottomHudIcon("homeicon.png");
+        addObject(homeicon,160,445);
+        BottomHudIcon alliesicon = new BottomHudIcon("alliesicon.png");
+        addObject(alliesicon, 100,448);
+        BottomHudIcon battleicon = new BottomHudIcon("battleicon.png");
+        addObject(battleicon, 45,446);
+        BottomHudIcon powerupicon = new BottomHudIcon("powerupicon.png");
+        addObject(powerupicon,220,452);
+    }
+
     public void unlockPreview(Ally ally){
         currentPreviewAlly = ally;
         if(unlockPreviewFrame == 100){
@@ -70,8 +95,7 @@ public class MyWorld extends World
             addObject(new OkButton("unlockpreview"),160,430);
         }
         unlockPreviewFrame--;
-        
-        
+
     }
     public void preview(){
         addObject(new UnlockedAlly(currentPreviewAlly,"preview"),80,160);
@@ -80,12 +104,15 @@ public class MyWorld extends World
         addObject(new DynamicHudBar(false, "Speed"),160,450);
         addObject(new OkButton("preview"),160,430);
     }
+
     public int getNumOwnedAllies(){
         return ownedAllies.size();
     }
+
     public Ally getAllyObjAtIndex(int index){
         return ownedAllies.get(index);
     }
+
     public void spendPlatinum(int spent){
         numPlatinum -= spent;
     }
@@ -95,13 +122,14 @@ public class MyWorld extends World
     }
 
     public void recruitAlly(){
+        enterPreview(true);
         addObject(new BlackFade("unlockpreview"),160,240);
-        isPreview = true;
     }
+
     public float getDecimalPercentOfStat(String type){
         int max = 1000;
         int current=0;
-        
+
         if(type == "Attack"){
             current = currentPreviewAlly.getAttack();
         }
@@ -114,6 +142,7 @@ public class MyWorld extends World
         float decimalPercent = (float)current/max;
         return decimalPercent;
     }
+
     public void toHomeScreen(){
         if(currentScreen!="home"){
             currentScreen = "home";
@@ -142,25 +171,30 @@ public class MyWorld extends World
             addObject(new AlliesScreenAlly(8),260,360);
         }
     }
+
     public void toBattleScreen(){
         if(currentScreen!="battle"){
             currentScreen = "battle";
         }
     }
+
     public void toPowerUpScreen(){
         if(currentScreen!="powerup"){
             currentScreen = "powerup";
         }
     }
+
     public void displayOwnedAllies(){
 
     }
-
+    public void removeHudObjects(){
+        removeObjects(getObjects(Hud.class));
+    }
     private void prepare(){
         allyDatabase.add(new Ally("Kageyama",700,250,250));
         allyDatabase.add(new Ally("Saitama",600,600,600));
         allyDatabase.add(new Ally("Kirito",500,300,600));
-        
+
         setBackground(new GreenfootImage("bg.jpg"));
         StaticHudImage platinumBackDrop = new StaticHudImage("blackrectangle2.png");
         addObject(platinumBackDrop,268,27);
@@ -179,7 +213,6 @@ public class MyWorld extends World
         BottomHudIcon powerupicon = new BottomHudIcon("powerupicon.png");
         addObject(powerupicon,220,452);
         setPaintOrder(White.class);
-        
 
     }
 }

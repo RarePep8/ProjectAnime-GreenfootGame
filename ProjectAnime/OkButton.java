@@ -25,6 +25,11 @@ public class OkButton extends Actor
             MyWorld world = (MyWorld)getWorld();
             if(scene == "preview" || scene == "unlockpreview"){
                 world.exitPreview();
+                world.addBottomHudIcons();
+                world.setPaintOrder(BlackFade.class);
+                world.setPaintOrder(UnlockedAlly.class);
+                world.setPaintOrder(DynamicHudBar.class);
+                world.setPaintOrder(OkButton.class);
             }
             world.removeObject(this);
         }

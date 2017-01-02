@@ -10,9 +10,14 @@ public class DynamicHudBar extends Hud
 {
     boolean isDynamic = false;
     String type;
-    int maxLength;
+    int maxLength = 0;
     int currentLength = 0;
+    int maxAdditionalLength = 0;
+    int additionalLength = 0;
     boolean init = true;
+    GreenfootImage image;
+    boolean toIncrease = true;
+    boolean toDecrease = false;
     public DynamicHudBar(boolean isDynamic, String type){
         this.isDynamic = isDynamic;
         this.type = type;
@@ -28,18 +33,43 @@ public class DynamicHudBar extends Hud
             init = false;
             fillUnlockedAllyBar();
         }
-        if(currentLength<=maxLength){
-            drawUnlockedAllyBar();
-            currentLength+=5;
+        if(currentLength != maxLength){
+            if(currentLength<=maxLength){
+                this.image = drawUnlockedAllyBar();
+                setImage(this.image);
+                currentLength+=5;
+                if(currentLength>maxLength){
+                    currentLength = maxLength;
+                }
+            }
+
+        }
+        else if(additionalLength != maxAdditionalLength){
+            if(additionalLength<=maxAdditionalLength){
+                this.image = drawUnlockedAllyBar();
+                setImage(this.image);
+                additionalLength+=1;
+                if(additionalLength>maxAdditionalLength){
+                    additionalLength = maxAdditionalLength;
+                }
+            }
+            else if(additionalLength>=maxAdditionalLength){
+
+            }
+
         }
         checkScene();
     }    
+    public void test(){
+        maxAdditionalLength += 50;
+    }
     public void checkScene(){
         MyWorld world = (MyWorld)getWorld();
         if(!isDynamic && !world.isPreview){
             world.removeObject(this);
         }
     }
+
     public void fillUnlockedAllyBar(){
         MyWorld world = (MyWorld)getWorld();
         float decimalPercent = world.getDecimalPercentOfStat(type);
@@ -48,7 +78,7 @@ public class DynamicHudBar extends Hud
         maxLength = (int)width;
     }
 
-    public void drawUnlockedAllyBar(){
+    public GreenfootImage drawUnlockedAllyBar(){
 
         GreenfootImage image = new GreenfootImage(250,250);
 
@@ -83,10 +113,15 @@ public class DynamicHudBar extends Hud
         }
         image.fillPolygon(xs3,ys3,4);
 
+        image.setColor(Color.gray);
+        int[] xs4 = {topX,topX+additionalLength,bottomX+additionalLength,bottomX};
+        int[] ys4 = {52,52,64,64};
+        image.fillPolygon(xs4,ys4,4);
+
         image.setColor(Color.white);
         image.setFont(image.getFont().deriveFont(11f));
         image.drawString(type,30,50);
 
-        setImage(image);
+        return image;
     }
 }
