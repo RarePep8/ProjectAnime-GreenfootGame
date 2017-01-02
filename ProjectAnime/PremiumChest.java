@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class PremiumChest extends Actor
 {
-    int frame = 20;
+    int frame = 100;
     int timer = 100;
     int size = 0;
     int defaultWidth;
@@ -47,26 +47,25 @@ public class PremiumChest extends Actor
 
     public void shake(){
         if(frame>0){
-            if(frame%2==0){
-                setRotation(getRotation()+frame);
+            int rotation = frame/10;
+            if(frame%20==0){
+                setRotation(getRotation()+rotation+8);
 
             }
             else{
-                setRotation(getRotation()-frame);
+                setRotation(getRotation()-rotation);
             }
 
         }
-        frame--;
-        if(frame==0){
-            setRotation(getRotation()-10);
-        }
+        frame-=5;
+        
     }
 
     public void time(){
         timer--;
         if(timer<=0){
-            timer = 150;
-            frame = 20;
+            timer = 100;
+            frame = 100;
         }
     }
 

@@ -36,6 +36,7 @@ public class AlliesScreenAlly extends AlliesHud
             size--;
             scaleImage();
         }
+        checkClicked();
         super.checkIsAlliesScreen();
     }    
 
@@ -49,7 +50,13 @@ public class AlliesScreenAlly extends AlliesHud
             setImage(fileName);
         }
     }
-
+    public void checkClicked(){
+        if(Greenfoot.mouseClicked(this)){
+            MyWorld world = (MyWorld)getWorld();
+            world.changeCurrentPreviewAlly(world.getAllyObjAtIndex(index));
+            world.enterPreview(false);
+        }
+    }
     public void checkHover(){
         
         if(Greenfoot.mouseMoved(null)){

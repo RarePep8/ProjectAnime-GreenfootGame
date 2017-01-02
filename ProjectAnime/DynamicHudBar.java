@@ -13,11 +13,9 @@ public class DynamicHudBar extends Hud
     int maxLength;
     int currentLength = 0;
     boolean init = true;
-    String scene;
-    public DynamicHudBar(boolean isDynamic, String type, String scene){
+    public DynamicHudBar(boolean isDynamic, String type){
         this.isDynamic = isDynamic;
         this.type = type;
-        this.scene = scene;
     }
 
     /**
@@ -38,7 +36,7 @@ public class DynamicHudBar extends Hud
     }    
     public void checkScene(){
         MyWorld world = (MyWorld)getWorld();
-        if(scene == "unlockpreview" && !world.isUnlock){
+        if(!isDynamic && !world.isPreview){
             world.removeObject(this);
         }
     }

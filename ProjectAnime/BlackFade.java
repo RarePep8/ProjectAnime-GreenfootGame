@@ -41,8 +41,12 @@ public class BlackFade extends Actor
         if(transparency==250){
 
             MyWorld world = (MyWorld)getWorld();
-            world.addObject(new PremiumChest(),160,270);
-
+            if(scene =="unlockpreview"){
+                world.addObject(new PremiumChest(),160,270);
+            }
+            else if(scene == "preview"){
+                world.preview();
+            }
         }
     }
 
@@ -58,7 +62,7 @@ public class BlackFade extends Actor
 
     public void checkScene(){
         MyWorld world = (MyWorld)getWorld();
-        if(scene == "unlockpreview" && !world.isUnlock){
+        if((scene == "unlockpreview" || scene == "preview") && !world.isPreview){
             disappear = true;
         }
     }

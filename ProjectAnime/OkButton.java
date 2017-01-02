@@ -23,8 +23,8 @@ public class OkButton extends Actor
     public void checkClicked(){
         if(Greenfoot.mousePressed(this)){
             MyWorld world = (MyWorld)getWorld();
-            if(scene == "unlockpreview"){
-                world.exitUnlock();
+            if(scene == "preview" || scene == "unlockpreview"){
+                world.exitPreview();
             }
             world.removeObject(this);
         }

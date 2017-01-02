@@ -11,11 +11,14 @@ public class UnlockedAlly extends Actor
     int delay = 75;
     boolean displayingData = false;
     Ally referenceAlly;
-    public UnlockedAlly(Ally ally){
+    String type;
+    public UnlockedAlly(Ally ally, String type){
         referenceAlly = ally;
+        this.type = type;
         String fileName = ally.getName().concat("-unlock.png");
         setImage(fileName);
     }
+
     /**
      * Act - do whatever the Ally wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -25,7 +28,11 @@ public class UnlockedAlly extends Actor
         move();
         checkScene();
     }
+
     public void move(){
+        if(type=="preview"){
+            delay = 0;
+        }
         if(delay>0){
             delay--;
         }
@@ -36,13 +43,16 @@ public class UnlockedAlly extends Actor
             else if(!displayingData){
                 displayingData = true;
                 MyWorld world = (MyWorld)getWorld();
-                world.unlockPreview(referenceAlly);
+                if(type == "unlockpreview"){
+                    world.unlockPreview(referenceAlly);
+                }
             }
         }
     }
+
     public void checkScene(){
         MyWorld world = (MyWorld)getWorld();
-        if(!world.isUnlock){
+        if((type == "unlockpreview" || type == "preview") && !world.isPreview){
             world.removeObject(this);
         }
     }
