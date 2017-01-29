@@ -11,6 +11,7 @@ public class MyWorld extends World
 {
     private int unlockPreviewFrame = 100;
     private int numPlatinum = 696;
+    int currentEnhanceAllyIndex = 0;
     boolean isPreview = false;
     boolean isUnlockPreview = false;
     String currentScreen = "home";
@@ -73,6 +74,21 @@ public class MyWorld extends World
         addObject(battleicon, 45,446);
         BottomHudIcon powerupicon = new BottomHudIcon("powerupicon.png");
         addObject(powerupicon,220,452);
+        if(currentScreen == "recruit"){
+            addObject(new PremiumChestWithKey(),160,270);
+            addObject(new BuyChestButton(),160,370);
+        }
+        else if(currentScreen == "allies"){
+            addObject(new AlliesScreenAlly(0),60,160);
+            addObject(new AlliesScreenAlly(1),160,160);
+            addObject(new AlliesScreenAlly(2),260,160);
+            addObject(new AlliesScreenAlly(3),60,260);
+            addObject(new AlliesScreenAlly(4),160,260);
+            addObject(new AlliesScreenAlly(5),260,260);
+            addObject(new AlliesScreenAlly(6),60,360);
+            addObject(new AlliesScreenAlly(7),160,360);
+            addObject(new AlliesScreenAlly(8),260,360);
+        }
     }
 
     public void unlockPreview(Ally ally){
@@ -97,6 +113,7 @@ public class MyWorld extends World
         unlockPreviewFrame--;
 
     }
+
     public void preview(){
         addObject(new UnlockedAlly(currentPreviewAlly,"preview"),80,160);
         addObject(new DynamicHudBar(false, "Attack"),160,350);
@@ -178,22 +195,43 @@ public class MyWorld extends World
         }
     }
 
-    public void toPowerUpScreen(){
-        if(currentScreen!="powerup"){
-            currentScreen = "powerup";
+    public void toEnhanceScreen(){
+        if(currentScreen!="enhance"){
+            currentScreen = "enhance";
+            addObject(new LeftArrow(),30,200);
+            addObject(new RightArrow(),210,200);
+            if(!ownedAllies.isEmpty()){
+                addObject(new EnhanceScreenAlly(ownedAllies.get(currentEnhanceAllyIndex)),120,200);
+            }
         }
     }
-
+    public void toNextEnhanceAlly(){
+        if(currentEnhanceAllyIndex<ownedAllies.size()-1){
+            currentEnhanceAllyIndex++;
+            removeObjects(getObjects(EnhanceScreenAlly.class));
+            addObject(new EnhanceScreenAlly(ownedAllies.get(currentEnhanceAllyIndex)),120,200);
+        }
+    }
+    public void toPrevEnhanceAlly(){
+        if(currentEnhanceAllyIndex>0){
+            currentEnhanceAllyIndex--;
+            removeObjects(getObjects(EnhanceScreenAlly.class));
+            addObject(new EnhanceScreenAlly(ownedAllies.get(currentEnhanceAllyIndex)),120,200);
+        }
+    }
     public void displayOwnedAllies(){
 
     }
+
     public void removeHudObjects(){
         removeObjects(getObjects(Hud.class));
     }
+
     private void prepare(){
         allyDatabase.add(new Ally("Kageyama",700,250,250));
         allyDatabase.add(new Ally("Saitama",600,600,600));
         allyDatabase.add(new Ally("Kirito",500,300,600));
+        //allyDatabase.add(new Ally("christina",0,0,666));
 
         setBackground(new GreenfootImage("bg.jpg"));
         StaticHudImage platinumBackDrop = new StaticHudImage("blackrectangle2.png");

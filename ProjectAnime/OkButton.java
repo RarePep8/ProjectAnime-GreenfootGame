@@ -12,6 +12,7 @@ public class OkButton extends Actor
     public OkButton(String scene){
         this.scene = scene;
     }
+
     /**
      * Act - do whatever the OkButton wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -20,6 +21,7 @@ public class OkButton extends Actor
     {
         checkClicked();
     }
+
     public void checkClicked(){
         if(Greenfoot.mousePressed(this)){
             MyWorld world = (MyWorld)getWorld();
@@ -30,6 +32,7 @@ public class OkButton extends Actor
                 world.setPaintOrder(UnlockedAlly.class);
                 world.setPaintOrder(DynamicHudBar.class);
                 world.setPaintOrder(OkButton.class);
+                world.setPaintOrder(White.class);
             }
             world.removeObject(this);
         }

@@ -10,9 +10,9 @@ public class DynamicHudBar extends Hud
 {
     boolean isDynamic = false;
     String type;
-    int maxLength = 0;
+    int maxLength;
     int currentLength = 0;
-    int maxAdditionalLength = 0;
+    int maxAdditionalLength;
     int additionalLength = 0;
     boolean init = true;
     GreenfootImage image;
@@ -32,6 +32,7 @@ public class DynamicHudBar extends Hud
         if(init){
             init = false;
             fillUnlockedAllyBar();
+            drawUnlockedAllyBar();
         }
         if(currentLength != maxLength){
             if(currentLength<=maxLength){
@@ -102,9 +103,8 @@ public class DynamicHudBar extends Hud
         int[] xs3 = {26,topX,bottomX,5};
         int[] ys3 = {52,52,64,64};      
 
-        if(type == "Attack"){
+        if(type == "Attack")
             image.setColor(Color.red);
-        }
         else if(type == "Defense"){
             image.setColor(Color.blue);
         }

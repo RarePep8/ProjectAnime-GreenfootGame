@@ -39,7 +39,7 @@ public class BottomHudIcon extends Hud
                 world.toBattleScreen();
             }
             else if(fileName == "powerupicon.png"){
-                world.toPowerUpScreen();
+                world.toEnhanceScreen();
             }
         }
     }
